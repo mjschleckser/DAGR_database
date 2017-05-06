@@ -15,11 +15,11 @@
 	<form method="post" action="insert.php">
 		<h1> Insert New DAGR Object </h2>
 	
-		Dagr Name: <input type="text" value="" name="name">
+		Dagr Name: <input type="text" value="" name="dagr_name">
 		<br> <br>
-		Select a file: <input type="file" name="fileToUpload" id="fileToUpload">
+		Select a file: <input type="file" name="fileToUpload">
 		<br> <br>
-		<input type="submit" value="Click Me" name="Submit">
+		<input type="submit" value="Submit" name="Submit">
 	</form>
 	</p>
 	
@@ -32,12 +32,13 @@
 			} 
 
 			$guid = GUID();
-			
 			printf("uniqid(): %s\r\n", $guid);
+			$dagr_name = $_POST['dagr_name'];
 			
-			$sql = "INSERT INTO dagr (id, name) VALUES ('" . $guid . "', 'DagrName');";
-			$result = $conn->query($sql);
-
+			$stmt = $conn->prepare("INSERT INTO dagr (id, name) VALUES (?, ?)");
+			$stmt->bind_param("ss", $guid, $dagr_name);
+			
+			$result = $stmt->execute();
 			echo $result;
 			
 			$conn->close();
