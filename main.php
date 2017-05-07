@@ -24,9 +24,9 @@
 		echo "<p>";
 		if ($result->num_rows > 0) {
 			// output data of each row
-			echo "<table><tr> <th>ID</th> <th>Name</th> </tr>";
+			echo "<table><tr> <th>Name</th> <th>DAGR GUID</th> </tr>";
 			while($row = $result->fetch_assoc()) {
-				echo " <tr> <td>" . $row["id"] . "</td> <td>" . $row["name"] . "</td> </tr> ";
+				echo " <tr> <td>" . $row["name"] . "</td> <td>" . $row["id"] . "</td> </tr> ";
 			}
 			echo "</table>";
 		} else {

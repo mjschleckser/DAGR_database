@@ -19,7 +19,7 @@
 		<br> <br>
 		Select a file: <input type="file" name="fileToUpload">
 		<br> <br>
-		<input type="submit" value="Submit" name="Submit">
+		<input type="submit" value="Submitjh" name="Submit">
 	</form>
 	</p>
 	
