@@ -1,6 +1,6 @@
 * {
-	font-size: 100%;
-	font-family: Courier;
+	/* font-size: 100%; */
+	
 }
 
 p {
@@ -13,7 +13,9 @@ form {
 
 table, th, td {
    border: 1px solid black;
+   font-family: Courier;
 }
+
 
 /* Navigation bar CSS*/
 .ul-navbar {
@@ -40,3 +42,13 @@ table, th, td {
     background-color: #A9A9A9;
 }
 /* End of navigation bar CSS */
+
+/* Invisible bullets class */
+.no-bullets {
+    list-style-type: none;
+}
+
+/* Centered class */
+.centered {
+    text-align: center;
+}
