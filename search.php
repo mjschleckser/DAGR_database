@@ -24,13 +24,24 @@
 		<br><br>
 		Author: <input type="text" style='width:12em' name="author">
 		<br><br>
-		Editor: <input type="text" style='width:12em' name="editor">
+		File Size: between <input type="text" style='width:5em' name="editor"> and <input type="text" style='width:5em' name="editor">
 		<br><br>
 		Keywords: <input type="text" style='width:15em' name="keyword">
 		<br><br>
 		File Type (png, jpg, etc): <input type="text" style='width:10em' name="type">
 		<br><br>
 	  
+	  <input type="submit" value="Submit">
+	</form>
+	
+	<h3 style="margin-left:2%"> Search by time range </h3>
+	<form action="search_result.php">
+		Format is month/day/year
+		<br><br>
+		Start time: <input type="datetime-local" name="start_time" value="<?php echo date('2000-01-01\T01:00:00.000');?>">
+		<br><br>
+		End time: <input type="datetime-local" name="end_time" value="<?php echo date('Y-m-d\TH:i');?>">
+		<br><br>
 	  <input type="submit" value="Submit">
 	</form> 
 	
