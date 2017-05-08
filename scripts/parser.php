@@ -1,4 +1,3 @@
-
 <?php
 
 include 'simple_html_dom.php';
@@ -20,15 +19,41 @@ function parseLink($link) {
 	$html = file_get_html($link);
 
 	foreach($html->find('a') as $element) 
+	      $count++;
+
+    foreach($html->find('img') as $element) 
 	       $count++;
+
 
 	$links = array($count);
 
 	// Find all links 
 	$i = 0;
 	foreach($html->find('a') as $element) {
-	    $links[$i] = $element->href;
-	  	$i++;
+	    $obj = $element->href;
+	     if(substr($obj, 0, 4) != 'http') {
+    		$obj = $link . $obj;
+		}
+		
+		if (!in_array($obj, $links)){
+			$links[$i] = $obj;
+			$i++;
+		}
+		
+	}
+
+
+	foreach($html->find('img') as $element) {
+		$obj = $element->src;
+	    if(substr($obj, 0, 4) != 'http') {
+    		$obj = $link . $obj;
+		}
+		
+		if (!in_array($obj, $links)){
+			$links[$i] = $obj;
+			$i++;
+		}
+
 	}
 
 	return $links;
