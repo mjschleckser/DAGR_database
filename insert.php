@@ -89,9 +89,16 @@
 			$dagr_name = $_POST['dagr_name']; 
 			$stmt = $conn->prepare("INSERT INTO dagr (id, name, path) VALUES (?,?,?)");
 			$stmt->bind_param("sss", $guid, $dagr_name, $file_path);
+			$result = $stmt->execute();
 			
+			$stmt = $conn->prepare("INSERT INTO metadata (dagr_id, author, time_edited) VALUES (?,?,?)");
+			$datetime=date("Y-m-d H:i:s");
+			$auth = "Unknown";
+			$stmt->bind_param("sss", $guid, $auth, $datetime);
 			
 			$result = $stmt->execute();
+			
+			
 			echo $result;
 			echo $file_path;
 			
