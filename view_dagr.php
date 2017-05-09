@@ -40,6 +40,18 @@
 			echo("<li>File Size: ".$result['file_size']."</li>");	
 			echo("</ul>");
 			
+			echo("<h2>Categories</h2>");
+			$sql_categories = "SELECT * 
+					FROM (dagr_to_categories INNER JOIN categories ON categories.id=dagr_to_categories.category_id)
+					WHERE dagr_id='".$_GET['guid']."'";
+			$category_result = $conn->query($sql_categories);
+			echo("<ul>");
+			while($row = $category_result->fetch_assoc()) {
+				echo " <li>".$row["name"]."</li> ";
+			}
+			echo("</ul>");
+			
+			
 			echo("<h2>Children DAGRs: </h2>");
 			$sql_child = "SELECT * 
 					FROM (dagr INNER JOIN children ON children.child_id=dagr.id)

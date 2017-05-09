@@ -87,11 +87,13 @@
 			$guid = GUID();
 			printf("uniqid(): %s\r\n", $guid);
 			$dagr_name = $_POST['dagr_name']; 
-			$stmt = $conn->prepare("INSERT INTO dagr (id, name) VALUES (?, ?)");
-			$stmt->bind_param("ss", $guid, $dagr_name, $file_path);
+			$stmt = $conn->prepare("INSERT INTO dagr (id, name, path) VALUES (?,?,?)");
+			$stmt->bind_param("sss", $guid, $dagr_name, $file_path);
+			
 			
 			$result = $stmt->execute();
 			echo $result;
+			echo $file_path;
 			
 			$conn->close();
 		}
