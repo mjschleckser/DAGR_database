@@ -22,9 +22,22 @@
 		<input type="submit" value="Submit" name="Submit">
 	</form>
 	</p>
+
+	<p>
+	<form method="post" action="insertURL.php">
+		<h1> Insert New DAGR Object </h2>
+	
+		Dagr Name: <input type="text" value="" name="url_dagr_name">
+		<br> <br>
+		URL: <input type="text" name="urlToUpload">
+		<br> <br>
+		<input type="submit" value="Submit" name="SubmitURL">
+	</form>
+	</p>
 	
 	<?php
 		if($_SERVER['REQUEST_METHOD']=='POST') {
+
 			// Create SQL connection
 			$conn = new mysqli($servername, $username, $password, $dbname);
 			if ($conn->connect_error) {
