@@ -29,7 +29,7 @@
 			// output data of each row
 			echo "<table><tr> <th>Category Name</th> <th> Category GUID </th> </tr>";
 			while($row = $result->fetch_assoc()) {
-				echo " <tr> <td>" . $row["name"] . "</td> <td>" . $row["id"] . "</td> </tr> ";
+				echo " <tr> <td>" . $row["name"] . "</td> <td> <a href=\"/dataAggregator/view_category.php?guid=".$row["id"]."\">". $row["id"]. "</a> </td> </tr> ";
 			}
 			echo "</table>";
 		} else {

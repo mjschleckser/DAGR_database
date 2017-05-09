@@ -13,21 +13,29 @@
 	
 	
 	<?php 
-		// Create SQL connection
-		$conn = new mysqli($servername, $username, $password, $dbname);
-		if ($conn->connect_error) {
-			die("Connection failed: " . $conn->connect_error);
-		} 
+		if(empty($_GET['guid'])){
+			echo("GUID is required to look up a category.");
+			exit();
+		} else {
+			$conn = new mysqli($servername, $username, $password, $dbname);
+			if ($conn->connect_error) {
+				die("Connection failed: " . $conn->connect_error);
+			} 
+			
+			$sql = "SELECT * 
+					FROM ((categories INNER JOIN dagr_to_categories ON categories.id=dagr_to_categories.category_id)  
+						INNER JOIN dagr on dagr_to_categories.dagr_id = dagr.id)
+					WHERE category_id='".$_GET['guid']."'";
+			$result = $conn->query($sql);
+			$result = $result->fetch_assoc();
 
-		$sql = "SELECT * FROM categories";
-		$result = $conn->query($sql);
-
-		echo "<h1>List of Categories</h1>";
-		
-		echo "<p>";
+			echo('<h1 class="centered">View Category</h1>');
+			echo("<h2>DAGRs in this category</h2>");
+			
+			echo "<p>";
 		if ($result->num_rows > 0) {
 			// output data of each row
-			echo "<table><tr> <th>Category Name</th> <th> Category GUID </th> </tr>";
+			echo "<table><tr> <th>Name</th> <th>DAGR GUID</th> </tr>";
 			while($row = $result->fetch_assoc()) {
 				echo " <tr> <td>" . $row["name"] . "</td> <td>" . $row["id"] . "</td> </tr> ";
 			}
@@ -36,7 +44,9 @@
 			echo "0 results";
 		}
 		echo "</p>";
-		$conn->close();	
+		$conn->close();
+			
+		}
 	?>
 	
 	</body>

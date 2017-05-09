@@ -47,7 +47,7 @@
 			$children_result = $conn->query($sql_child);
 			echo("<ul>");
 			while($row = $children_result->fetch_assoc()) {
-				echo " <li>".$row["name"]." : " . '<a href="/dataAggregator/view.php?guid='.$row["id"].'">' . $row["id"]."</a> </li> ";
+				echo " <li>".$row["name"]." : " . '<a href="/dataAggregator/view_dagr.php?guid='.$row["id"].'">' . $row["id"]."</a> </li> ";
 			}
 			echo("</ul>");
 			
@@ -58,10 +58,11 @@
 			$parent_result = $conn->query($sql_parent);
 			echo("<ul>");
 			while($row = $parent_result->fetch_assoc()) {
-				echo " <li>".$row["name"]." : " . '<a href="/dataAggregator/view.php?guid='.$row["id"].'">' . $row["id"]."</a> </li> ";
+				echo " <li>".$row["name"]." : " . '<a href="/dataAggregator/view_dagr.php?guid='.$row["id"].'">' . $row["id"]."</a> </li> ";
 			}
 			echo("</ul>");
 			
+			$conn->close();
 		}
 	?>
 	
