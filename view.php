@@ -34,10 +34,10 @@
 			echo('<ul class="no-bullets">');
 			echo("<li>DAGR Name: ".$result['name']."</li>");
 			echo("<li>DAGR GUID: ".$result['id']."</li>");
-			echo("<li>Time Created: ".$result['time_created']."</li>");
+			echo("<li>Author: ".$result['author']."</li>");
 			echo("<li>Time Edited: ".$result['time_edited']."</li>");
-			echo("<li>Created by: ".$result['createdby']."</li>");
-			echo("<li>Edited by: ".$result['editedby']."</li>");	
+			echo("<li>File Type: ".$result['file_type']."</li>");
+			echo("<li>File Size: ".$result['file_size']."</li>");	
 			echo("</ul>");
 			
 			echo("<h2>Children DAGRs: </h2>");
