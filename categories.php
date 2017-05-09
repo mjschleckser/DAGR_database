@@ -20,8 +20,11 @@
 		} 
 		
 		// If they have posted a new category, add it to the DB
-		if(!empty($_GET['name'])){
-			
+		if(!empty($_POST['name'])){
+			$guid = GUID();
+			$stmt = $conn->prepare("INSERT INTO categories (id, name) VALUES (?, ?)");
+			$stmt->bind_param("ss", $guid, $_POST['name']);
+			$result = $stmt->execute();
 		}
 
 		$sql = "SELECT * FROM categories";
