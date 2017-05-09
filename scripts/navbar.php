@@ -2,6 +2,7 @@
   <li class="li-navbar"><a class="li-navbar-a" href="main.php">Home</a></li>
   <li class="li-navbar"><a class="li-navbar-a" href="insert.php">Insert</a></li>
   <li class="li-navbar"><a class="li-navbar-a" href="search.php">Search DAGRs</a></li>
+  <li class="li-navbar"><a class="li-navbar-a" href="categories.php">Categories</a></li>
 </ul>
 
 <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
