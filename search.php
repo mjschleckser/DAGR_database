@@ -12,7 +12,7 @@
 	?>
 	
 	<h3 style="margin-left:2%"> Search by GUID </h3>
-	<form action="view.php">
+	<form action="view_dagr.php">
 	  GUID: <input type="text" style='width:20em' name="guid" value="3270C5C5-F589-4BA2-820B-6EBD0DD4C85E">
 	  <br><br>
 	  <input type="submit" value="Submit">
