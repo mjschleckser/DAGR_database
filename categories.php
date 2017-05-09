@@ -18,6 +18,11 @@
 		if ($conn->connect_error) {
 			die("Connection failed: " . $conn->connect_error);
 		} 
+		
+		// If they have posted a new category, add it to the DB
+		if(!empty($_GET['name'])){
+			
+		}
 
 		$sql = "SELECT * FROM categories";
 		$result = $conn->query($sql);
@@ -36,8 +41,14 @@
 			echo "0 results";
 		}
 		echo "</p>";
-		$conn->close();	
+		$conn->close();
 	?>
 	
+	<h1>Add a New Category</h1>
+	<form action="categories.php" method="post">
+	  Category Name: <input type="text" style='width:20em' name="name" value="">
+	  <br><br>
+	  <input type="submit" value="Submit">
+	</form> 
 	</body>
 </html>
