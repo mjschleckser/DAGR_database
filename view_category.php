@@ -54,5 +54,11 @@
 		}
 	?>
 	
+	<form action="delete_confirm.php" method="get">
+	  <input type="hidden" name="guid" value="<?php echo($_GET['guid']);?>" >
+	  <input type="submit" value="Delete">
+	</form> 
+	
+	
 	</body>
 </html>
