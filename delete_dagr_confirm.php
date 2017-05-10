@@ -16,7 +16,7 @@
 		
 		// No GUID provided
 		if(empty($_GET['guid']) && empty($_POST['guid'])) {
-			echo("This page requires a GUID to delete.");
+			echo("This page requires a GUID to perform deletion on");
 			exit();
 		// GUID provided through GET
 		} else if(empty($_POST['guid'])){
