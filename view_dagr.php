@@ -46,11 +46,6 @@
 		echo("</ul>");
 	?>
 	
-	<form action="edit_dagr.php" method="get">
-	  <input type="hidden" name="guid" value="<?php echo($_GET['guid']);?>" >
-	  <input type="submit" value="Edit DAGR">
-	</form> 
-		
 	<h2>Categories</h2>
 	<?php
 		$sql_categories = "SELECT * 
@@ -64,6 +59,12 @@
 		}
 		echo("</ul>");
 	?>
+	
+	<form action="edit_dagr.php" method="get">
+		<input type="hidden" name="guid" value="<?php echo($_GET['guid']);?>" >
+		<input type="submit" value="Edit DAGR">
+	</form> 
+		
 		
 	<h2>Children DAGRs: </h2>
 	<?php
