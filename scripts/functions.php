@@ -85,8 +85,7 @@
 	
 	function post_page_with_parent($conn, $parent, $file_path){
 			$has_children = "yes";
-			$path_parts = pathinfo('/www/htdocs/inc/lib.inc.php');
-			$file_type = $path_parts['extension'];
+			$file_type = pathinfo($file_path, PATHINFO_EXTENSION);
 			$file_size = web_page_size($file_path);
 
 
@@ -121,7 +120,7 @@
 			if ($inputType=='url'){
 				$file_path = $_POST['urlToUpload'];
 				$children = parseLink($file_path);
-				$file_type = 'text/html';
+				$file_type = 'html';
 				$file_size = web_page_size($file_path);
 			} else {
 				//find file path here read email
