@@ -28,6 +28,10 @@
 				FROM (dagr INNER JOIN metadata ON dagr.id=metadata.dagr_id)
 				WHERE dagr_id='".$_GET['guid']."'";
 		$result = $conn->query($sql);
+		if(mysqli_num_rows($result) <= 0){
+			echo("No DAGR found with that GUID. </body></html>");
+			exit();
+		}
 		$result = $result->fetch_assoc();
 		
 	?>

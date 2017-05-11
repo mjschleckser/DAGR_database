@@ -26,15 +26,13 @@
 		<br><br>
 		File Size: between <input type="text" style='width:5em' name="editor"> and <input type="text" style='width:5em' name="editor">
 		<br><br>
-		Keywords: <input type="text" style='width:15em' name="keyword">
-		<br><br>
 		File Type (png, jpg, etc): <input type="text" style='width:10em' name="type">
 		<br><br>
-	  
-	  <input type="submit" value="Submit">
+		<input type="hidden" name="search_type" value="metadata">
+		<input type="submit" value="Submit">
 	</form>
 	
-	<h3 style="margin-left:2%"> Search by time range </h3>
+	<h3 style="margin-left:2%"> Search by edit date </h3>
 	<form action="search_result.php"  method="get">
 		Format is month/day/year
 		<br><br>
@@ -42,7 +40,8 @@
 		<br><br>
 		End time: <input type="datetime-local" name="end_time" value="<?php echo date('Y-m-d\TH:i');?>">
 		<br><br>
-	  <input type="submit" value="Submit">
+		<input type="hidden" name="search_type" value="edit_date">
+		<input type="submit" value="Submit">
 	</form> 
 	
 	
