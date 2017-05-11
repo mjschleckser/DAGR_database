@@ -35,7 +35,7 @@
 	</script>
 
 	<p>
-	<form method="post" action="insert.php">
+	<form method="post" action="insert.php" enctype="multipart/form-data">
 		<h1> Insert New DAGR Object </h2>
 	
 		<input type="radio" value="file" name="insert_radio" id="radio_file" style="margin:0px !important" checked="checked" onchange="onchange_handler(this, 'fileToUpload');" onmouseup="onchange_handler(this, 'fileToUpload');">
@@ -71,11 +71,17 @@
 
 
 			$inputType = $_POST['insert_radio'];
-			if ($inputType="url"){
+			if ($inputType=='url'){
 				$file_path = $_POST['urlToUpload'];
 				$children = parse_url($file_path);
-			}else{
-				$file_path = $_POST['fileToUpload'];
+			} else {
+				//find file path here read email
+				$file_path = basename($_FILES['fileToUpload']['name']);
+				//$file_type = $_FILES['fileToUpload']['type'];
+				//$file_size = $_FILES['fileToUpload']['size'];
+				//$target_file = basename($_FILES["fileToUpload"]["name"]);
+				//$imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
+				printf($file_path);
 			}
 
 			// Create SQL connection
