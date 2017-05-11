@@ -121,6 +121,13 @@
 				$stmt->bind_param("ss", $guid, $parent);
 				$result = $stmt->execute();
 			}
+
+			if ($children != null){
+				for($x = 0;$x < $children.size;$x++){
+					post_page($conn, $guid);
+				}
+			}
+			
 			echo $result;
 			echo $file_path;
 			
