@@ -75,7 +75,7 @@
 				die("Connection failed: " . $conn->connect_error);
 			} 
 
-			post_page($conn);
+			post_page_without_parent($conn);
 
 			$conn->close();
 		}
