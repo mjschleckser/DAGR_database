@@ -82,5 +82,47 @@
     	return 0;
 	}
 	
-	
+	function post_page($conn, $parent){
+		$inputType = $_POST['insert_radio'];
+			if ($inputType=='url'){
+				$file_path = $_POST['urlToUpload'];
+				$children = parse_url($file_path);
+				$file_type = 'test/html';
+				$file_size = web_page_size($file_path);
+			} else {
+				//find file path here read email
+				$file_path = basename($_FILES['fileToUpload']['name']);
+				$file_type = $_FILES['fileToUpload']['type'];
+				$file_size = $_FILES['fileToUpload']['size'];
+				if ($file_type = 'text/html'){
+					$children = parse_url($file_path);
+				}else{
+					$children = null;
+				}
+			}
+
+			$guid = GUID($conn);
+			printf("uniqid(): %s\r\n", $guid);
+			$dagr_name = $_POST['dagr_name']; 
+			$stmt = $conn->prepare("INSERT INTO dagr (id, name, path) VALUES (?,?,?)");
+			$stmt->bind_param("sss", $guid, $dagr_name, $file_path);
+			$result = $stmt->execute();
+			
+			$stmt = $conn->prepare("INSERT INTO metadata (dagr_id, author, time_edited, file_type, file_size) VALUES (?,?,?,?,?)");
+			$datetime=date("Y-m-d H:i:s");
+			//author is ip address uof uploading user
+			$auth = $_SERVER['REMOTE_ADDR'];
+			$stmt->bind_param("sssss", $guid, $auth, $datetime, $file_type, $file_size);
+			
+			$result = $stmt->execute();
+			
+			if ($parent != null){
+				$stmt = $conn->prepare("INSERT INTO children (child_id,parent_id) VALUES (?,?)");
+				$stmt->bind_param("ss", $guid, $parent);
+				$result = $stmt->execute();
+			}
+			echo $result;
+			echo $file_path;
+			
+	}
 ?>
