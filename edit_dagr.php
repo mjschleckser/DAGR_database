@@ -31,6 +31,7 @@
 		
 		$category_added = 0;
 		$category_removed = 0;
+		$changes_saved = 0;
 		// Script for if we are POSTing
 		if(!empty($_POST['type'])){
 			if(strcmp($_POST['type'] , "category_add") == 0){
@@ -46,7 +47,9 @@
 						WHERE dagr_id='".$guid."' AND category_id='".$_POST['category']."'";
 				$category_removed = $conn->query($sql);
 			} else if(strcmp($_POST['type'] , "basics") == 0) {
-			
+				
+				
+				$changes_saved = 1;
 			} else {
 				// do nothing
 			}
@@ -77,6 +80,9 @@
 		<input type="hidden" name="guid" value="<?php echo $guid;?>" >
 		<input type="hidden" name="type" value="basics">
 		<input type="submit" value="Save Changes">
+		<?php 
+			if($changes_saved == 1){ echo("<br><br>Changes saved."); }
+		?>
 	</form>
 	
 	<h2> Add to a Category </h2>
@@ -107,6 +113,7 @@
 										categories inner join dagr_to_categories 
 										on categories.id=dagr_to_categories.category_id)
 									WHERE dagr_id='".$guid."'");
+			$count = mysqli_num_rows($result);
 			while($row = $result->fetch_assoc()) {
 				echo '<option value="'.$row['id'].'">'.$row['name'].'</option>';
 			}
@@ -115,8 +122,8 @@
 		<br><br>
 		<input type="hidden" name="guid" value="<?php echo $guid;?>" >
 		<input type="hidden" name="type" value="category_remove">
-		<input type="submit">
-		<?php 
+		<?php
+			if($count > 0) echo '<input type="submit">';
 			if($category_removed == 1){ echo("<br><br>Removed from category."); }
 		?>
 	</form>
