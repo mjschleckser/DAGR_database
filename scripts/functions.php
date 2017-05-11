@@ -62,6 +62,25 @@
 		}
 	}
 	
+	function web_page_size($file){
+		$ch = curl_init($file);
+	    curl_setopt($ch, CURLOPT_NOBODY, true);
+	    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+	    curl_setopt($ch, CURLOPT_HEADER, true);
+	    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+
+	    $data = curl_exec($ch);
+	    curl_close($ch);
+
+	    if (preg_match('/Content-Length: (\d+)/', $data, $matches)) {
+
+	        // Contains file size in bytes
+	        $contentLength = (int)$matches[1];
+	        return $contentLength;
+
+    	}
+    	return 0;
+	}
 	
 	
 ?>

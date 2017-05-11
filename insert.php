@@ -74,8 +74,8 @@
 			if ($inputType=='url'){
 				$file_path = $_POST['urlToUpload'];
 				$children = parse_url($file_path);
-				$file_type = '.html';
-				$file_size = "10";
+				$file_type = 'test/html';
+				$file_size = web_page_size($file_path);
 			} else {
 				//find file path here read email
 				$file_path = basename($_FILES['fileToUpload']['name']);
@@ -96,10 +96,11 @@
 			$stmt->bind_param("sss", $guid, $dagr_name, $file_path);
 			$result = $stmt->execute();
 			
-			$stmt = $conn->prepare("INSERT INTO metadata (dagr_id, author, time_edited, file_type, file_size) VALUES (?,?,?,?)");
+			$stmt = $conn->prepare("INSERT INTO metadata (dagr_id, author, time_edited, file_type, file_size) VALUES (?,?,?,?,?)");
 			$datetime=date("Y-m-d H:i:s");
+			//author is ip address uof uploading user
 			$auth = $_SERVER['REMOTE_ADDR'];
-			$stmt->bind_param("sss", $guid, $auth, $datetime,$file_type, $file_size);
+			$stmt->bind_param("sssss", $guid, $auth, $datetime, $file_type, $file_size);
 			
 			$result = $stmt->execute();
 			
