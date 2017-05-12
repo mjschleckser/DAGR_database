@@ -32,5 +32,17 @@
 		<input type="submit" value="Get Report">
 	</form>
 	
+	<h2> Time Range Report</h2>
+	<form>
+		Format is month/day/year
+		<br><br>
+		Start time: <input type="datetime-local" name="start_time" value="<?php echo date('2000-01-01\T01:00:00.000');?>">
+		<br><br>
+		End time: <input type="datetime-local" name="end_time" value="<?php echo date('Y-m-d\TH:i');?>">
+		<br><br>
+		<input name="report_type" value="time_range" type="hidden" >
+		<input type="submit" value="Get Report">
+	</form> 
+	
 	</body>
 </html>
