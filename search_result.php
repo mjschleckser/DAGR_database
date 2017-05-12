@@ -29,14 +29,17 @@
 			$sql = "SELECT * 
 				FROM (dagr INNER JOIN metadata on dagr.id=metadata.dagr_id)
 				WHERE 1";
-			if(!empty($_GET['author'])) $sql .= " AND author LIKE ".$_GET['author'];
-			if(!empty($_GET['file_size'])) $sql .= " AND file_size < ";
-			if(!empty($_GET['author'])) $sql .= " AND author LIKE ".$_GET['author'];
-			
+			if(!empty($_GET['author'])) $sql .= " AND author LIKE '".$_GET['author']."'";
+			if(!empty($_GET['fs_min'])) $sql .= " AND file_size > ".$_GET['fs_min'];
+			if(!empty($_GET['fs_max'])) $sql .= " AND file_size < ".$_GET['fs_max	'];
+			if(!empty($_GET['file_type'])) $sql .= " AND file_type LIKE '".$_GET['file_type']."'";
 		} else if(strcmp($_GET['search_type'], 'edit_date') == 0) {
+			$start_time = str_replace("T"," ",$_GET['start_time']);
+			$end_time = str_replace("T"," ",$_GET['end_time']);
 			$sql = "SELECT * 
 				FROM (dagr INNER JOIN metadata on dagr.id=metadata.dagr_id)
-				";
+				WHERE time_edited > '".$start_time.
+				"' AND time_edited < '".$end_time."'";
 		}
 		
 		$result = $conn->query($sql);
@@ -54,6 +57,7 @@
 								<th>File path</th> 								
 								<th>File type</th>
 								<th>File size</th> 
+								<th>Time Edited</th> 
 							</tr>";
 			while($row = $result->fetch_assoc()) {
 				echo "<tr><td><a href=\"view_dagr.php?guid=".$row["id"]."\">".$row["name"]."</a>".
@@ -61,6 +65,7 @@
 					"</td><td>".$row["path"].
 					"</td><td>".$row["file_type"].
 					"</td><td>".$row["file_size"].
+					"</td><td>".$row["time_edited"].
 					"</td></tr>";
 			}
 			echo "</table>";

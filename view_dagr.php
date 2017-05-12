@@ -29,7 +29,7 @@
 				WHERE dagr_id='".$_GET['guid']."'";
 		$result = $conn->query($sql);
 		if(mysqli_num_rows($result) <= 0){
-			echo("No DAGR found with that GUID. </body></html>");
+			echo("No DAGR/metadata combination found for that GUID. </body></html>");
 			exit();
 		}
 		$result = $result->fetch_assoc();

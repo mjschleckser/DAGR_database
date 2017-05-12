@@ -24,9 +24,10 @@
 		<br><br>
 		Author: <input type="text" style='width:12em' name="author">
 		<br><br>
-		File Size: between <input type="text" style='width:5em' name="fs_min"> and <input type="text" style='width:5em' name="fs_max">
+		File Size (in bytes):	greater than <input type="text" style='width:5em' name="fs_min">
+								less than <input type="text" style='width:5em' name="fs_max">
 		<br><br>
-		File Type (png, jpg, etc): <input type="text" style='width:10em' name="type">
+		File Type (text/html, img/jpg, etc): <input type="text" style='width:10em' name="file_type">
 		<br><br>
 		<input type="hidden" name="search_type" value="metadata">
 		<input type="submit" value="Submit">
