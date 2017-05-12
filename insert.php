@@ -33,7 +33,7 @@
 			if(is_dir($_POST['path'])){
 				directory_upload($conn, $_POST['path']);
 			} else {
-				single_file_upload($conn, $_POST['path'], -1);
+				single_file_upload($conn, $_POST['path'], -1, 1);
 			}			
 			$conn->close();
 			

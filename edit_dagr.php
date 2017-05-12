@@ -52,6 +52,10 @@
 							annotation='".$_POST['annotation']."'
 						WHERE id='".$guid."'";
 				$changes_saved = $conn->query($sql);
+				$sql = "UPDATE metadata 
+						SET author='".$_POST['author']."'
+						WHERE dagr_id='".$guid."'";
+				$conn->query($sql);
 			} else {
 				// do nothing
 			}
@@ -69,6 +73,8 @@
 	<form action="edit_dagr.php" method="post">
 	<h2>Basic DAGR Information</h2>
 		DAGR Name: <input type="text" style='width:20em' name="name" value="<?php echo $result['name']; ?>">
+		<br><br>
+		Author: <input type="text" style='width:20em' name="author" value="<?php echo $result['author']; ?>">
 		<br><br>
 		<input type="hidden" name="guid" value="<?php echo $guid;?>" >
 		<input type="hidden" name="type" value="basics">

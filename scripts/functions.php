@@ -73,7 +73,12 @@
     	return 0;
 	}
 	
-	function single_file_upload($conn, $path, $parent_id){
+	function single_file_upload($conn, $path, $parent_id, $depth){
+		if(!file_exists($path)){
+			echo "ERROR: A linked file was not found.<br>";
+			return -1;
+		}
+		
 		$guid = GUID();
 		$path = $path;
 		$name = basename($path);
@@ -105,11 +110,13 @@
 			$stmt = $conn->prepare("INSERT INTO children (child_id, parent_id) VALUES (?,?)");
 			$stmt->bind_param("ss", $guid, $parent_id);
 			$stmt->execute();
-		} else if(strcmp($file_type, "html" == 0)){ // If we are a parent HTML doc
+		} 
+		
+		if($depth > 0 && strcmp($file_type, "html" == 0)){ // If we are a parent HTML doc
 			$children = parseLink($path);
 			foreach ($children as $child){
 				$child = str_replace($name, "", $child);
-				single_file_upload($conn, $child, $guid);
+				single_file_upload($conn, $child, $guid, ($depth-1));
 			}
 		}
 		return 0;
@@ -123,7 +130,7 @@
 			if(is_dir($file_path)){
 				directory_upload($conn, $file_path);
 			} else {
-				single_file_upload($conn, $file_path, -1);
+				single_file_upload($conn, $file_path, -1, 1);
 			}
 		}
 		return 0;
@@ -131,82 +138,5 @@
 	
 	function web_upload($conn){
 		// get_meta_tags
-	}
-	
-	function post_page_with_parent($conn, $parent, $file_path){
-			$has_children = "yes";
-			$file_type = pathinfo($file_path, PATHINFO_EXTENSION);
-			$file_size = web_page_size($file_path);
-
-
-			$guid = GUID();
-			printf("uniqid(): %s\r\n", $guid);
-			$dagr_name = $file_path; 
-			$created = date('Y-m-d H:i:s');
-			$stmt = $conn->prepare("INSERT INTO dagr (id, name, path, time_created) VALUES (?,?,?,?)");
-			$stmt->bind_param("ssss", $guid, $dagr_name, $file_path, $created);
-			$result = $stmt->execute();
-			
-			$stmt = $conn->prepare("INSERT INTO metadata (dagr_id, author, time_edited, file_type, file_size) VALUES (?,?,?,?,?)");
-			$datetime=date("Y-m-d H:i:s");
-			//author is ip address uof uploading user
-			$auth = $_SERVER['REMOTE_ADDR'];
-			$stmt->bind_param("sssss", $guid, $auth, $datetime, $file_type, $file_size);
-			
-			$result = $stmt->execute();
-			
-			//insert children relationships
-			$stmt = $conn->prepare("INSERT INTO children (child_id,parent_id) VALUES (?,?)");
-			$stmt->bind_param("ss", $guid, $parent);
-			$result = $stmt->execute();
-
-			echo $result;
-			echo $file_path;
-			
-	}
-
-	function post_page_without_parent($conn){
-		$has_children = "yes";
-		$inputType = $_POST['insert_radio'];
-			if ($inputType=='url'){
-				$file_path = $_POST['urlToUpload'];
-				$children = parseLink($file_path);
-				$file_type = 'html';
-				$file_size = web_page_size($file_path);
-			} else {
-				$file_path = basename($_FILES['fileToUpload']['name']);
-				$file_type = $_FILES['fileToUpload']['type'];
-				$file_size = $_FILES['fileToUpload']['size'];
-				echo date('Y-m-d H:i:s', stat($_FILES['fileToUpload']['tmp_name'])['atime'])."<br>";
-				echo hash_file("sha256", $_FILES['fileToUpload']['tmp_name'])."<br>";
-				$has_children = "none";
-			}
-
-			$guid = GUID();
-			printf("uniqid(): %s\r\n", $guid);
-			$dagr_name = $_POST['dagr_name'];
-			$created = date('Y-m-d H:i:s');
-			$stmt = $conn->prepare("INSERT INTO dagr (id, name, path, time_created) VALUES (?,?,?,?)");
-			$stmt->bind_param("ssss", $guid, $dagr_name, $file_path, $created);
-			$result = $stmt->execute();
-			
-			$stmt = $conn->prepare("INSERT INTO metadata (dagr_id, author, time_edited, file_type, file_size) VALUES (?,?,?,?,?)");
-			$datetime=date("Y-m-d H:i:s");
-			//author is ip address of uploading user
-			$auth = $_SERVER['REMOTE_ADDR'];
-			$stmt->bind_param("sssss", $guid, $auth, $datetime, $file_type, $file_size);
-			
-			$result = $stmt->execute();
-			
-			//call children
-			if ($has_children != "none" && sizeof($children) > 0){
-				foreach ($children as $child){
-					post_page_with_parent($conn, $guid, $child);
-				}
-			}
-
-			echo $result;
-			echo $file_path;
-			
 	}
 ?>
