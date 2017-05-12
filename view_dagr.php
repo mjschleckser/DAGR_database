@@ -45,7 +45,8 @@
 		echo('<ul class="no-bullets">');
 		echo("<li>DAGR Name: ".$result['name']."</li>");
 		echo("<li>DAGR GUID: ".$result['id']."</li>");
-		echo("<li>Author: ".$result['author']."</li>");
+		echo("<li>DAGR Created: ".$result['time_created']."</li>");
+		echo("<li>File Author: ".$result['author']."</li>");
 		echo("<li>File path: ".$result['path']."</li>");
 		echo("<li>Time Edited: ".$result['time_edited']."</li>");
 		echo("<li>File Type: ".$result['file_type']."</li>");

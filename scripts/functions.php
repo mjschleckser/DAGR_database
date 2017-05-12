@@ -92,8 +92,9 @@
 			$guid = GUID();
 			printf("uniqid(): %s\r\n", $guid);
 			$dagr_name = $file_path; 
-			$stmt = $conn->prepare("INSERT INTO dagr (id, name, path) VALUES (?,?,?)");
-			$stmt->bind_param("sss", $guid, $dagr_name, $file_path);
+			$created = date('Y-m-d H:i:s');
+			$stmt = $conn->prepare("INSERT INTO dagr (id, name, path, time_created) VALUES (?,?,?,?)");
+			$stmt->bind_param("ssss", $guid, $dagr_name, $file_path, $created);
 			$result = $stmt->execute();
 			
 			$stmt = $conn->prepare("INSERT INTO metadata (dagr_id, author, time_edited, file_type, file_size) VALUES (?,?,?,?,?)");
@@ -132,14 +133,15 @@
 
 			$guid = GUID();
 			printf("uniqid(): %s\r\n", $guid);
-			$dagr_name = $_POST['dagr_name']; 
-			$stmt = $conn->prepare("INSERT INTO dagr (id, name, path) VALUES (?,?,?)");
-			$stmt->bind_param("sss", $guid, $dagr_name, $file_path);
+			$dagr_name = $_POST['dagr_name'];
+			$created = date('Y-m-d H:i:s');
+			$stmt = $conn->prepare("INSERT INTO dagr (id, name, path, time_created) VALUES (?,?,?,?)");
+			$stmt->bind_param("ssss", $guid, $dagr_name, $file_path, $created);
 			$result = $stmt->execute();
 			
 			$stmt = $conn->prepare("INSERT INTO metadata (dagr_id, author, time_edited, file_type, file_size) VALUES (?,?,?,?,?)");
 			$datetime=date("Y-m-d H:i:s");
-			//author is ip address uof uploading user
+			//author is ip address of uploading user
 			$auth = $_SERVER['REMOTE_ADDR'];
 			$stmt->bind_param("sssss", $guid, $auth, $datetime, $file_type, $file_size);
 			
