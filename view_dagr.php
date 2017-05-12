@@ -37,6 +37,8 @@
 	?>
 
 	<h1 class="centered">View DAGR</h1>
+	
+	<form>
 	<h2>Basic DAGR Information</h2>
 		
 	<?php
@@ -44,12 +46,18 @@
 		echo("<li>DAGR Name: ".$result['name']."</li>");
 		echo("<li>DAGR GUID: ".$result['id']."</li>");
 		echo("<li>Author: ".$result['author']."</li>");
+		echo("<li>File path: ".$result['path']."</li>");
 		echo("<li>Time Edited: ".$result['time_edited']."</li>");
 		echo("<li>File Type: ".$result['file_type']."</li>");
 		echo("<li>File Size: ".$result['file_size']."</li>");	
 		echo("</ul>");
 	?>
 	
+	<h2>Annotation</h2>
+	<textarea rows="4" cols="50" readonly><?php echo $result['annotation']; ?></textarea>
+	</form>
+	
+	<form action="edit_dagr.php" method="get">
 	<h2>Categories</h2>
 	<?php
 		$sql_categories = "SELECT * 
@@ -64,12 +72,12 @@
 		echo("</ul>");
 	?>
 	
-	<form action="edit_dagr.php" method="get">
+	
 		<input type="hidden" name="guid" value="<?php echo($_GET['guid']);?>" >
 		<input type="submit" value="Edit DAGR">
 	</form> 
 		
-		
+	<form>
 	<h2>Children DAGRs: </h2>
 	<?php
 		$sql_child = "SELECT * 
@@ -99,12 +107,14 @@
 		}
 		echo("</ul>");	
 	?>
+	</form>
 	
-	<h2> Delete this DAGR </h2>
 	<form action="delete_dagr_confirm.php" method="get">
+	<h2> Delete this DAGR </h2>
 	  <input type="hidden" name="guid" value="<?php echo($_GET['guid']);?>" >
 	  <input type="submit" value="Delete">
 	</form> 
+	
 	
 	<?php
 		$conn->close();

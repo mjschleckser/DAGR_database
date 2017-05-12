@@ -36,7 +36,7 @@
 
 	<p>
 	<form method="post" action="insert.php" enctype="multipart/form-data">
-		<h1> Insert New DAGR Object </h2>
+		<h1> Insert New DAGR Object </h1>
 	
 		<input type="radio" value="file" name="insert_radio" id="radio_file" style="margin:0px !important" checked="checked" onchange="onchange_handler(this, 'fileToUpload');" onmouseup="onchange_handler(this, 'fileToUpload');">
     		<strong>File Upload</strong>

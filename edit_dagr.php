@@ -47,9 +47,12 @@
 						WHERE dagr_id='".$guid."' AND category_id='".$_POST['category']."'";
 				$category_removed = $conn->query($sql);
 			} else if(strcmp($_POST['type'] , "basics") == 0) {
-				
-				
-				$changes_saved = 1;
+				$sql = "UPDATE dagr 
+						SET name='".$_POST['name']."',
+							path='".$_POST['path']."',
+							annotation='".$_POST['annotation']."'
+						WHERE id='".$guid."'";
+				$changes_saved = $conn->query($sql);
 			} else {
 				// do nothing
 			}
@@ -63,30 +66,30 @@
 
 	?>
 	<h1 class="centered">Edit DAGR</h1>
-	<h2>Basic DAGR Information</h2>
+	
 	<form action="edit_dagr.php" method="post">
+	<h2>Basic DAGR Information</h2>
 		DAGR Name: <input type="text" style='width:20em' name="name" value="<?php echo $result['name']; ?>">
 		<br><br>
-		DAGR GUID: <input type="text" style='width:20em' name="guid" value="<?php echo $result['id'];?>" readonly>
-		<br><br>
-		Author: <input type="text" style='width:20em' name="author" value="<?php echo $result['author']; ?>">
-		<br><br>
-		Time Edited: <input type="text" style='width:20em' name="time_edited" value="<?php echo $result['time_edited']; ?>">
-		<br><br>
-		File Type: <input type="text" style='width:20em' name="file_type" value="<?php echo $result['file_type']; ?>">
-		<br><br>
-		File Size: <input type="text" style='width:20em' name="file_size" value="<?php echo $result['file_size']; ?>">
+		File Path: <input type="text" style='width:20em' name="path" value="<?php echo $result['path']; ?>">
 		<br><br>
 		<input type="hidden" name="guid" value="<?php echo $guid;?>" >
 		<input type="hidden" name="type" value="basics">
-		<input type="submit" value="Save Changes">
-		<?php 
-			if($changes_saved == 1){ echo("<br><br>Changes saved."); }
-		?>
+	
+	<h2>Edit Annotation</h2>
+		<textarea name="annotation" rows="4" cols="50"><?php echo $result['annotation']; ?></textarea>
+	
+	<br><br>
+	<input type="submit" value="Save Changes">
+	
+	<?php 
+		if($changes_saved == 1){ echo("<br><br>Changes saved."); }
+	?>
+	
 	</form>
 	
-	<h2> Add to a Category </h2>
 	<form action="edit_dagr.php" method="post">
+	<h2> Add to a Category </h2>
 		<select name="category">
 		<?php
 			$result = $conn->query("SELECT * FROM categories");
@@ -104,8 +107,9 @@
 		?>
 	</form>
 	
-	<h2> Remove from a Category </h2>
+	
 	<form action="edit_dagr.php" method="post">
+	<h2> Remove from a Category </h2>
 		<select name="category">
 		<?php
 			$result = $conn->query("SELECT * 
