@@ -18,7 +18,7 @@
 			die("Connection failed: " . $conn->connect_error);
 		} 
 
-		$sql = "SELECT * FROM dagr";
+		$sql = "SELECT * FROM dagr ORDER BY time_created DESC";
 		$result = $conn->query($sql);
 
 		echo "<h1>Welcome to the DAGR database.</h1>";
@@ -27,9 +27,12 @@
 		echo "<p>";
 		if ($result->num_rows > 0) {
 			// output data of each row
-			echo "<table><tr> <th>Name</th> <th>DAGR GUID</th> </tr>";
+			echo "<table><tr> <th>Name</th> <th>DAGR GUID</th> <th>Time Created</th> </tr>";
 			while($row = $result->fetch_assoc()) {
-				echo " <tr> <td>" . $row["name"] . "</td> <td>".'<a href="view_dagr.php?guid='.$row["id"].'">' . $row["id"]."</a></td> </tr> ";
+				echo "<tr><td>".$row["name"]."</td><td>".'<a href="view_dagr.php?guid='.$row["id"].'">' 
+								. $row["id"]."</a></td> <td>" 
+								. $row["time_created"]."</td>
+								</tr> ";
 			}
 			echo "</table>";
 		} else {

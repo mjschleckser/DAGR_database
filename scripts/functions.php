@@ -128,6 +128,8 @@
 				$file_path = basename($_FILES['fileToUpload']['name']);
 				$file_type = $_FILES['fileToUpload']['type'];
 				$file_size = $_FILES['fileToUpload']['size'];
+				echo date('Y-m-d H:i:s', stat($_FILES['fileToUpload']['tmp_name'])['atime'])."<br>";
+				echo hash_file("sha256", $_FILES['fileToUpload']['tmp_name'])."<br>";
 				$has_children = "none";
 			}
 
