@@ -33,14 +33,17 @@
 			print_table($conn,$sql);
 		} else if(strcmp($_GET['report_type'], 'reach') == 0) {
 				$stack =  array();
+				$used =  array();
 				$sql = "SELECT * 
 				FROM (dagr INNER JOIN children ON children.child_id=dagr.id)
 				WHERE parent_id='".$_GET['guid']."'";
 				array_unshift($stack,$sql);
+				array_unshift($used,$sql);
 				$sql2 = "SELECT * 
 				FROM (dagr INNER JOIN children ON children.parent_id=dagr.id)
 				WHERE parent_id='".$_GET['guid']."'";
 				array_unshift($stack,$sql2);
+				array_unshift($used,$sql2);
 				echo "<table>";
 				echo "	<tr><th>Name</th> 
 								<th>Author</th>
@@ -56,12 +59,18 @@
 						while($row = $result->fetch_assoc()) {
 							$sql3 = "SELECT * 
 							FROM (dagr INNER JOIN children ON children.child_id=dagr.id)
-							WHERE parent_id='".$row["id"]."'";
-							array_unshift($stack,$sql3);
+							WHERE child_id='".$row["id"]."'";
+							if (!in_array($sql3, $used)){
+								array_unshift($stack,$sql3);
+								array_unshift($used,$sql3);
+							}
 							$sql4 = "SELECT * 
 							FROM (dagr INNER JOIN children ON children.parent_id=dagr.id)
 							WHERE parent_id='".$row["id"]."'";
-							array_unshift($stack,$sql3);
+							if (!in_array($sql4, $used)){
+								array_unshift($stack,$sql4);
+								array_unshift($used,$sql4);
+							}
 							echo "<tr><td><a href=\"view_dagr.php?guid=".$row["id"]."\">".$row["name"]."</a>".
 							"</td><td>".$row["author"].
 							"</td><td>".$row["path"].
@@ -75,7 +84,10 @@
 				echo "</table>";
 
 		} else {
-			$sql="";
+			$start_time = $_GET['start_time'];
+			$end_time = $_GET['end_time'];
+			$sql="SELECT * FROM dagr WHERE DATE(dagr.time_created) BETWEEN ". substr($start_time, 0, 9)." AND ". substr($end_time, 0, 9);
+			print_table($conn,$sql);
 		}
 
 		$conn->close();
