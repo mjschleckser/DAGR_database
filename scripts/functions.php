@@ -9,20 +9,15 @@
 
 	//returns string array containg of the links in a webpage
 	function parseLink($link) {
-
 		$count = 0;
 		// Create DOM from URL or file
 		$html = file_get_html($link);
-
 		foreach($html->find('a') as $element) 
 		      $count++;
-
 	    foreach($html->find('img') as $element) 
 		       $count++;
 
-
 		$links = array($count);
-
 		// Find all links 
 		$i = 0;
 		foreach($html->find('a') as $element) {
@@ -30,26 +25,21 @@
 		     if(substr($obj, 0, 4) != 'http') {
 			$obj = $link . $obj;
 			}
-
 			if (!in_array($obj, $links)){
 				$links[$i] = $obj;
 				$i++;
 			}
-
 		}
-
 
 		foreach($html->find('img') as $element) {
 			$obj = $element->src;
 		    if(substr($obj, 0, 4) != 'http') {
 			$obj = $link . $obj;
 			}
-
 			if (!in_array($obj, $links)){
 				$links[$i] = $obj;
 				$i++;
 			}
-
 		}
 
 		return $links;
@@ -81,6 +71,48 @@
 
     	}
     	return 0;
+	}
+	
+	function single_file_upload($conn, $path){
+		$guid = GUID();
+		$path = $path;
+		$name = basename($path);
+		$created = date('Y-m-d H:i:s');
+		$stmt = $conn->prepare("INSERT INTO dagr (id, name, path, time_created) VALUES (?,?,?,?)");
+		$stmt->bind_param("ssss", $guid, $name, $path, $created);
+		$stmt->execute();
+		
+		$author = $_SERVER['REMOTE_ADDR'];
+		$file_type = pathinfo($path, PATHINFO_EXTENSION);
+		$file_size = stat($path)['size'];
+		$time_edited = date('Y-m-d H:i:s', stat($path)['mtime']);
+		$stmt = $conn->prepare("INSERT INTO metadata (dagr_id, author, time_edited, file_type, file_size) 
+								VALUES (?,?,?,?,?)");
+		$stmt->bind_param("sssss", $guid, $author, $time_edited, $file_type, $file_size);
+		$stmt->execute();
+		
+		if(strcmp($file_type, "html" == 0)){
+			// then do that stuff
+		}
+		return 0;
+	}
+	
+	function directory_upload($conn, $dir){
+		$dir_files = scandir($dir);
+		$dir_files = array_diff($dir_files, array('.', '..'));
+		foreach($dir_files as $df){
+			$file_path = $dir . DIRECTORY_SEPARATOR . $df;
+			if(is_dir($file_path)){
+				directory_upload($conn, $file_path);
+			} else {
+				single_file_upload($conn, $file_path);
+			}
+		}
+		return 0;
+	}
+	
+	function web_upload($conn){
+		// get_meta_tags
 	}
 	
 	function post_page_with_parent($conn, $parent, $file_path){
@@ -124,7 +156,6 @@
 				$file_type = 'html';
 				$file_size = web_page_size($file_path);
 			} else {
-				//find file path here read email
 				$file_path = basename($_FILES['fileToUpload']['name']);
 				$file_type = $_FILES['fileToUpload']['type'];
 				$file_size = $_FILES['fileToUpload']['size'];

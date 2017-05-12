@@ -11,59 +11,14 @@
 		include 'scripts/functions.php';
 		include 'scripts/navbar.php';
 	?> 
-	
-	<script type="text/javascript">
-		function onchange_handler(obj, id) {
-		    var other_id = (id == 'fileToUpload')? 'urlToUpload' : 'fileToUpload';
-		    var text_id = 'displayInputType';
-
-		    if (other_id == 'fileToUpload'){
-		    	document.getElementById(text_id).innerHTML = 'Enter URL:';
-		    }else{
-		    	document.getElementById(text_id).innerHTML = 'Select a file:';
-		    }
-
-
-		    if(obj.checked) {
-		        document.getElementById(id).style.display = 'block';
-		        document.getElementById(other_id).style.display = 'none';
-		    } else {
-		        document.getElementById(id).style.display = 'none';
-		        document.getElementById(other_id).style.display = 'block';
-		    }
-		}
-	</script>
 
 	<p>
-	<form method="post" action="insert.php" enctype="multipart/form-data">
-		<h1> Insert New DAGR Object </h1>
-	
-		<input type="radio" value="file" name="insert_radio" id="radio_file" style="margin:0px !important" checked="checked" onchange="onchange_handler(this, 'fileToUpload');" onmouseup="onchange_handler(this, 'fileToUpload');">
-    		<strong>File Upload</strong>
-
-    	<br> <br>
-    	<input type="radio" value="url" name="insert_radio" id="radio_url" style="margin:0px !important" onchange="onchange_handler(this, 'urlToUpload');" onmouseup="onchange_handler(this, 'urlToUpload');">
-    	<strong>URL</strong>
-
-    	<br> <br>
-
-
-		Dagr Name: <input type="text" id="dagr_name" name="dagr_name">
-		<br> <br>
-
-		<span id ="displayInputType"> Select a file: </span>
-
+	<form method="post" action="insert.php">
+	<h1> Upload New DAGR File </h1>
+		Local File Path: <input type="text" style='width:30em' name="path">
 		<br><br>
-
-		<input type="text" style = "display:none;" id="urlToUpload" name="urlToUpload">
-
-		<input type="file" id="fileToUpload" name="fileToUpload">
-
-		
-
-		<br> <br>
-		<input type="submit" value="Submit" name="Submit">
-	</form>
+		<input type="submit" value="Submit">
+		</form>
 	</p>
 	
 	<?php
@@ -74,10 +29,15 @@
 			if ($conn->connect_error) {
 				die("Connection failed: " . $conn->connect_error);
 			} 
-
-			post_page_without_parent($conn);
-
+	
+			if(is_dir($_POST['path'])){
+				directory_upload($conn, $_POST['path']);
+			} else {
+				single_file_upload($conn, $_POST['path']);
+			}			
 			$conn->close();
+			
+			echo "<h4>Files inserted.</h4>";
 		}
 	?>
 	</body>

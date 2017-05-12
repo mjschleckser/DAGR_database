@@ -22,7 +22,7 @@
 		$result = $conn->query($sql);
 
 		echo "<h1>Welcome to the DAGR database.</h1>";
-		echo "<h2>There are currently ".mysqli_num_rows($result)." DAGRs in the database.</h2>";
+		echo "<h2>There are currently ".mysqli_num_rows($result)." DAGRs in the database.</h2>";		
 		
 		echo "<p>";
 		if ($result->num_rows > 0) {
