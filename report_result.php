@@ -37,6 +37,10 @@
 				FROM (dagr INNER JOIN children ON children.child_id=dagr.id)
 				WHERE parent_id='".$_GET['guid']."'";
 				array_unshift($stack,$sql);
+				$sql2 = "SELECT * 
+				FROM (dagr INNER JOIN children ON children.parent_id=dagr.id)
+				WHERE parent_id='".$_GET['guid']."'";
+				array_unshift($stack,$sql2);
 				echo "<table>";
 				echo "	<tr><th>Name</th> 
 								<th>Author</th>
@@ -50,10 +54,14 @@
 					$result = $conn->query($l);
 					if ($result->num_rows > 0) {
 						while($row = $result->fetch_assoc()) {
-							$sql = "SELECT * 
+							$sql3 = "SELECT * 
 							FROM (dagr INNER JOIN children ON children.child_id=dagr.id)
 							WHERE parent_id='".$row["id"]."'";
-							array_unshift($stack,$sql);
+							array_unshift($stack,$sql3);
+							$sql4 = "SELECT * 
+							FROM (dagr INNER JOIN children ON children.parent_id=dagr.id)
+							WHERE parent_id='".$row["id"]."'";
+							array_unshift($stack,$sql3);
 							echo "<tr><td><a href=\"view_dagr.php?guid=".$row["id"]."\">".$row["name"]."</a>".
 							"</td><td>".$row["author"].
 							"</td><td>".$row["path"].
