@@ -26,7 +26,7 @@
 	
 	<h2>Reach Query</h2>
 	<form action="report_result.php">
-		 GUID: <input type="text" style='width:20em' name="guid" value="3270C5C5-F589-4BA2-820B-6EBD0DD4C85E">
+		 GUID: <input type="text" style='width:20em' name="guid" value="">
 		<br><br>
 		<input name="report_type" value="reach" type="hidden">
 		<input type="submit" value="Get Report">

@@ -12,11 +12,14 @@
 		$count = 0;
 		// Create DOM from URL or file
 		$html = file_get_html($link);
-		foreach($html->find('a') as $element) 
-		      $count++;
-	    foreach($html->find('img') as $element) 
-		       $count++;
-
+		try{
+			foreach($html->find('a') as $element) 
+			  $count++;
+			foreach($html->find('img') as $element) 
+			   $count++;
+		} catch (Exception $e){
+			
+		}
 		$links = array($count);
 		// Find all links 
 		$i = 0;
@@ -73,29 +76,8 @@
 	        // Contains file size in bytes
 	        $contentLength = (int)$matches[1];
 	        return $contentLength;
-
     	}
     	return 0;
-	}
-	
-	function download_file($url, $path)
-	{
-		$newfname = $path;
-		$file = fopen ($url, 'rb');
-		if ($file) {
-			$newf = fopen ($newfname, 'wb');
-			if ($newf) {
-				while(!feof($file)) {
-					fwrite($newf, fread($file, 1024 * 8), 1024 * 8);
-				}
-			}
-		}
-		if ($file) {
-			fclose($file);
-		}
-		if ($newf) {
-			fclose($newf);
-		}
 	}
 	
 	function delete_dagr($conn, $guid){
@@ -169,7 +151,7 @@
 			$stmt->execute();
 		} 
 		
-		if($depth > 0 && strcmp($file_type, "html" == 0)){ // If we are a parent HTML doc
+		if($depth > 0 && strcmp($file_type, "html") == 0){ // If we are a parent HTML doc
 			$children = parseLink($path);
 			foreach ($children as $child){
 				$child = str_replace($name, "", $child);
@@ -187,12 +169,8 @@
 		$guid = GUID();
 		$path = $url;
 		$name = basename($url);
-		echo $name."<br>";
-		$dl_path = "/temp/temp.dl";
-		file_put_contents($dl_path, file_get_contents($url));
-		$hash = hash_file("sha256", $dl_path);
-		unlink($dl_path);
-		echo "Hash:".$hash."<br>";
+		$rando = "".rand(0, 214748363);
+		$hash = hash("sha256", $rando);
 		$created = date('Y-m-d H:i:s');
 		
 		// Check for duplicates
@@ -225,8 +203,6 @@
 			try{
 				$children = parseLink($url);
 				foreach ($children as $child){
-					$child = str_replace($name, "", $child);
-					echo $child."<br>";
 					web_upload($conn, $child, $guid, ($depth-1));
 				}
 			} catch (Exception $e) {
@@ -239,7 +215,6 @@
 	function print_table($conn,$sql){
 			$result = $conn->query($sql);
 			if(mysqli_num_rows($result) <= 0){
-				echo $sql;
 				echo("No records returned. Please alter your search and try again.</body></html>");
 				exit();
 			}

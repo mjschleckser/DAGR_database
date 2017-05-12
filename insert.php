@@ -34,7 +34,7 @@
 				directory_upload($conn, $_POST['path']);
 			} else {
 				single_file_upload($conn, $_POST['path'], -1, 1);
-			}			
+			}
 			$conn->close();
 			
 			echo "<h4>Files inserted.</h4>";

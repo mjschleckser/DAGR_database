@@ -45,12 +45,10 @@
 				array_unshift($stack,$sql2);
 				array_unshift($used,$sql2);
 				echo "<table>";
-				echo "	<tr><th>Name</th> 
-								<th>Author</th>
-								<th>File path</th> 								
-								<th>File type</th>
-								<th>File size</th> 
-								<th>Time Edited</th> 
+				echo "	<tr>	<th>Name</th> 
+								<th>GUID</th>
+								<th>Time Created</th> 								
+								<th>Annotation</th>
 							</tr>";
 				do { 
 					$l = array_shift($stack);
@@ -72,11 +70,9 @@
 								array_unshift($used,$sql4);
 							}
 							echo "<tr><td><a href=\"view_dagr.php?guid=".$row["id"]."\">".$row["name"]."</a>".
-							"</td><td>".$row["author"].
-							"</td><td>".$row["path"].
-							"</td><td>".$row["file_type"].
-							"</td><td>".$row["file_size"].
-							"</td><td>".$row["time_edited"].
+							"</td><td>".$row["id"].
+							"</td><td>".$row["time_created"].
+							"</td><td>".$row["annotation"].
 							"</td></tr>";
 						}
 					}
