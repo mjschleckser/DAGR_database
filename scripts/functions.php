@@ -77,10 +77,20 @@
 		$guid = GUID();
 		$path = $path;
 		$name = basename($path);
+		$hash = hash_file("sha256", $path);
 		$created = date('Y-m-d H:i:s');
-		$stmt = $conn->prepare("INSERT INTO dagr (id, name, path, time_created) VALUES (?,?,?,?)");
-		$stmt->bind_param("ssss", $guid, $name, $path, $created);
-		$stmt->execute();
+		
+		// Check for duplicates
+		$sql = "SELECT * FROM dagr WHERE hash='".$hash."'";
+		$result = $conn->query($sql);
+		if(mysqli_num_rows($result) != 0){
+			echo "ERROR: A file with an identical hash already exists in the database.<br>";
+			return -1;
+		}
+		
+		$stmt = $conn->prepare("INSERT INTO dagr (id, name, path, hash, time_created) VALUES (?,?,?,?,?)");
+		$stmt->bind_param("sssss", $guid, $name, $path, $hash, $created);
+		$stmt->execute();		
 		
 		$author = $_SERVER['REMOTE_ADDR'];
 		$file_type = pathinfo($path, PATHINFO_EXTENSION);

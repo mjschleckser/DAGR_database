@@ -47,10 +47,11 @@
 		echo("<li>DAGR GUID: ".$result['id']."</li>");
 		echo("<li>DAGR Created: ".$result['time_created']."</li>");
 		echo("<li>File Author: ".$result['author']."</li>");
-		echo("<li>File path: ".$result['path']."</li>");
-		echo("<li>Time Edited: ".$result['time_edited']."</li>");
-		echo("<li>File Type: ".$result['file_type']."</li>");
-		echo("<li>File Size: ".$result['file_size']."</li>");	
+		echo("<li>File Path: ".$result['path']."</li>");
+		echo("<li>File Hash: ".$result['hash']."</li>");
+		echo("<li>File Edited: ".$result['time_edited']."</li>");
+		echo("<li>File Type: .".$result['file_type']."</li>");
+		echo("<li>File Size: ".$result['file_size']."B</li>");	
 		echo("</ul>");
 	?>
 	

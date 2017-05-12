@@ -49,7 +49,6 @@
 			} else if(strcmp($_POST['type'] , "basics") == 0) {
 				$sql = "UPDATE dagr 
 						SET name='".$_POST['name']."',
-							path='".$_POST['path']."',
 							annotation='".$_POST['annotation']."'
 						WHERE id='".$guid."'";
 				$changes_saved = $conn->query($sql);
@@ -70,8 +69,6 @@
 	<form action="edit_dagr.php" method="post">
 	<h2>Basic DAGR Information</h2>
 		DAGR Name: <input type="text" style='width:20em' name="name" value="<?php echo $result['name']; ?>">
-		<br><br>
-		File Path: <input type="text" style='width:20em' name="path" value="<?php echo $result['path']; ?>">
 		<br><br>
 		<input type="hidden" name="guid" value="<?php echo $guid;?>" >
 		<input type="hidden" name="type" value="basics">
