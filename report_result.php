@@ -27,44 +27,49 @@
 
 		if(strcmp($_GET['report_type'], 'orphan') == 0){
 			$sql = "SELECT * FROM (SELECT * FROM dagr d LEFT JOIN children on d.id = children.child_id WHERE children.child_id IS NULL) t, metadata m WHERE m.dagr_id = t.id";
-				
+			print_table($conn,$sql);	
 		} else if(strcmp($_GET['report_type'], 'sterile') == 0) {
 			$sql = "SELECT * FROM (SELECT * FROM dagr d LEFT JOIN children on d.id = children.parent_id WHERE children.parent_id IS NULL) t, metadata m WHERE m.dagr_id = t.id";
-		} else if(strcmp($_GET['report_type'], 'range') == 0) {
-		}
-		
-		$result = $conn->query($sql);
-		if(mysqli_num_rows($result) <= 0){
-			echo $sql;
-			echo("No records returned. Please alter your search and try again.</body></html>");
-			exit();
-		}
-		
-		
-		echo "<p>";
-		if ($result->num_rows > 0) {
-			// output data of each row
-			echo "<table>	<tr><th>Name</th> 
+			print_table($conn,$sql);
+		} else if(strcmp($_GET['report_type'], 'reach') == 0) {
+				$stack =  array();
+				$sql = "SELECT * 
+				FROM (dagr INNER JOIN children ON children.child_id=dagr.id)
+				WHERE parent_id='".$_GET['guid']."'";
+				array_unshift($stack,$sql);
+				echo "<table>";
+				echo "	<tr><th>Name</th> 
 								<th>Author</th>
 								<th>File path</th> 								
 								<th>File type</th>
 								<th>File size</th> 
 								<th>Time Edited</th> 
 							</tr>";
-			while($row = $result->fetch_assoc()) {
-				echo "<tr><td><a href=\"view_dagr.php?guid=".$row["id"]."\">".$row["name"]."</a>".
-					"</td><td>".$row["author"].
-					"</td><td>".$row["path"].
-					"</td><td>".$row["file_type"].
-					"</td><td>".$row["file_size"].
-					"</td><td>".$row["time_edited"].
-					"</td></tr>";
-			}
-			echo "</table>";
+				do { 
+					$l = array_shift($stack);
+					$result = $conn->query($l);
+					if ($result->num_rows > 0) {
+						while($row = $result->fetch_assoc()) {
+							$sql = "SELECT * 
+							FROM (dagr INNER JOIN children ON children.child_id=dagr.id)
+							WHERE parent_id='".$row["id"]."'";
+							array_unshift($stack,$sql);
+							echo "<tr><td><a href=\"view_dagr.php?guid=".$row["id"]."\">".$row["name"]."</a>".
+							"</td><td>".$row["author"].
+							"</td><td>".$row["path"].
+							"</td><td>".$row["file_type"].
+							"</td><td>".$row["file_size"].
+							"</td><td>".$row["time_edited"].
+							"</td></tr>";
+						}
+					}
+				} while (sizeof($stack) > 0);
+				echo "</table>";
+
 		} else {
-			echo "0 results";
+			$sql="";
 		}
-		echo "</p>";
+
 		$conn->close();
 	?>
 	

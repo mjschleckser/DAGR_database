@@ -139,4 +139,39 @@
 	function web_upload($conn){
 		// get_meta_tags
 	}
+
+	function print_table($conn,$sql){
+			$result = $conn->query($sql);
+			if(mysqli_num_rows($result) <= 0){
+				echo $sql;
+				echo("No records returned. Please alter your search and try again.</body></html>");
+				exit();
+			}
+			
+			
+			echo "<p>";
+			if ($result->num_rows > 0) {
+				// output data of each row
+				echo "<table>	<tr><th>Name</th> 
+									<th>Author</th>
+									<th>File path</th> 								
+									<th>File type</th>
+									<th>File size</th> 
+									<th>Time Edited</th> 
+								</tr>";
+				while($row = $result->fetch_assoc()) {
+					echo "<tr><td><a href=\"view_dagr.php?guid=".$row["id"]."\">".$row["name"]."</a>".
+						"</td><td>".$row["author"].
+						"</td><td>".$row["path"].
+						"</td><td>".$row["file_type"].
+						"</td><td>".$row["file_size"].
+						"</td><td>".$row["time_edited"].
+						"</td></tr>";
+				}
+				echo "</table>";
+			} else {
+				echo "0 results";
+			}
+			echo "</p>";
+		}
 ?>
