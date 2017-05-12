@@ -24,7 +24,7 @@
 		<br><br>
 		Author: <input type="text" style='width:12em' name="author">
 		<br><br>
-		File Size: between <input type="text" style='width:5em' name="editor"> and <input type="text" style='width:5em' name="editor">
+		File Size: between <input type="text" style='width:5em' name="fs_min"> and <input type="text" style='width:5em' name="fs_max">
 		<br><br>
 		File Type (png, jpg, etc): <input type="text" style='width:10em' name="type">
 		<br><br>

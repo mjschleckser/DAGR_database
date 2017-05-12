@@ -28,7 +28,10 @@
 		if(strcmp($_GET['search_type'], 'metadata') == 0){
 			$sql = "SELECT * 
 				FROM (dagr INNER JOIN metadata on dagr.id=metadata.dagr_id)
-				";
+				WHERE 1";
+			if(!empty($_GET['author'])) $sql .= " AND author LIKE ".$_GET['author'];
+			if(!empty($_GET['file_size'])) $sql .= " AND file_size < ";
+			if(!empty($_GET['author'])) $sql .= " AND author LIKE ".$_GET['author'];
 			
 		} else if(strcmp($_GET['search_type'], 'edit_date') == 0) {
 			$sql = "SELECT * 
