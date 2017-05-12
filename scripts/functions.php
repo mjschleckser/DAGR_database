@@ -73,7 +73,7 @@
     	return 0;
 	}
 	
-	function single_file_upload($conn, $path){
+	function single_file_upload($conn, $path, $parent_id){
 		$guid = GUID();
 		$path = $path;
 		$name = basename($path);
@@ -101,8 +101,16 @@
 		$stmt->bind_param("sssss", $guid, $author, $time_edited, $file_type, $file_size);
 		$stmt->execute();
 		
-		if(strcmp($file_type, "html" == 0)){
-			// then do that stuff
+		if($parent_id != -1){	// If this DAGR is a child
+			$stmt = $conn->prepare("INSERT INTO children (child_id, parent_id) VALUES (?,?)");
+			$stmt->bind_param("ss", $guid, $parent_id);
+			$stmt->execute();
+		} else if(strcmp($file_type, "html" == 0)){ // If we are a parent HTML doc
+			$children = parseLink($path);
+			foreach ($children as $child){
+				$child = str_replace($name, "", $child);
+				single_file_upload($conn, $child, $guid);
+			}
 		}
 		return 0;
 	}
@@ -115,7 +123,7 @@
 			if(is_dir($file_path)){
 				directory_upload($conn, $file_path);
 			} else {
-				single_file_upload($conn, $file_path);
+				single_file_upload($conn, $file_path, -1);
 			}
 		}
 		return 0;
