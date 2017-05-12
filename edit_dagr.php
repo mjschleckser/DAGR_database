@@ -42,6 +42,13 @@
 							(SELECT 1 FROM dagr_to_categories 
 							WHERE dagr_id='".$guid."' AND category_id='".$_POST['category']."')";
 				$category_added = $conn->query($sql);
+			} else if(strcmp($_POST['type'] , "open") == 0) {
+				$sql = "SELECT * FROM active_dagr WHERE dagr_id='".$_POST['guid']."'";
+				$result = $conn->query($sql);
+				if(mysqli_num_rows($result) == 0){
+					$sql = "INSERT INTO active_dagr (dagr_id) VALUES ('".$_POST['guid']."')";
+					$conn->query($sql);
+				}
 			} else if(strcmp($_POST['type'] , "category_remove") == 0) {
 				$sql = "DELETE FROM dagr_to_categories
 						WHERE dagr_id='".$guid."' AND category_id='".$_POST['category']."'";
@@ -134,6 +141,12 @@
 			if($category_removed == 1){ echo("<br><br>Removed from category."); }
 		?>
 	</form>
+	
+	<form action="edit_dagr.php" method="post">
+	<h3>Add to open DAGR list</h3>
+	<input type="hidden" name="guid" value="<?php echo $guid;?>" >
+	<input type="hidden" name="type" value="open">
+	<input type="submit" value="Open DAGR">
 	
 	
 	<?php 

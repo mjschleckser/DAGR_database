@@ -28,11 +28,8 @@
 			echo("<h2>Are you sure you want to delete this DAGR?</h2>");
 			echo("<h3>Affected DAGRs:</h3>");
 			$guid = $_GET['guid'];
-			$sql = "SELECT * FROM (dagr INNER JOIN children ON dagr.id=children.parent_id) as A
+			$sql = "SELECT * FROM (dagr INNER JOIN children ON dagr.id=children.parent_id)";
 			
-			
-			
-			";
 			$result = $conn->query($sql);	
 
 			

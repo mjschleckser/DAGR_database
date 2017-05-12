@@ -25,7 +25,8 @@
 						WHERE id='".$_POST['guid']."'";
 				$conn->query($sql);
 			} if(strcmp($_POST['action_type'], "delete") == 0){
-				delete_dagr($conn, $_POST['guid']);
+				$sql = "DELETE FROM active_dagr WHERE dagr_id='".$_POST['guid']."'";
+				$conn->query($sql);
 			}if(strcmp($_POST['action_type'], "insert") == 0){
 				$new_id = web_upload($conn, $_POST['url'], -1, 1);
 				$sql = "INSERT INTO active_dagr (dagr_id) VALUES ('".$new_id."')";
@@ -33,13 +34,14 @@
 			}
 		}		
 		
-		echo "<table><tr> <th>URL</th> <th>Name</th> <th>Notes</th> <th> Save Changes </th> <th> Remove </th> </tr>";
+		echo "<table><tr> <th>URL</th> <th>GUID</th> <th>Name</th> <th>Notes</th> <th> Save Changes </th> <th> Remove </th> </tr>";
 		$sql = "SELECT * FROM active_dagr INNER JOIN dagr on dagr.id=active_dagr.dagr_id";
 		$result = $conn->query($sql);
 		if(mysqli_num_rows($result) != 0){
 			while($row = $result->fetch_assoc()){
 				echo "<form action='extension_interface.php' method='post'><tr>".
 						"<td><input type='text' style='width:6em' value='".$row["path"]."' readonly></td>".
+						"<td><input type='text' style='width:6em' value='".$row["id"]."' readonly></td>".
 						"<td><input type='text' name='name' style='width:6em' value='".$row["name"]."'></td>".
 						"<td><input type='text' name='annotation' style='width:6em' value='".$row["annotation"]."'></td>".
 						"<td style='text-align:center'> 
