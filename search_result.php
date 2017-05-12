@@ -30,6 +30,7 @@
 				FROM (dagr INNER JOIN metadata on dagr.id=metadata.dagr_id)
 				WHERE 1";
 			if(!empty($_GET['author'])) $sql .= " AND author LIKE '".$_GET['author']."'";
+			if(!empty($_GET['annotation'])) $sql .= " AND annotation LIKE '%".$_GET['annotation']."%'";
 			if(!empty($_GET['fs_min'])) $sql .= " AND file_size > ".$_GET['fs_min'];
 			if(!empty($_GET['fs_max'])) $sql .= " AND file_size < ".$_GET['fs_max	'];
 			if(!empty($_GET['file_type'])) $sql .= " AND file_type LIKE '".$_GET['file_type']."'";
@@ -44,6 +45,7 @@
 		
 		$result = $conn->query($sql);
 		if(mysqli_num_rows($result) <= 0){
+			echo $sql;
 			echo("No records returned. Please alter your search and try again.</body></html>");
 			exit();
 		}

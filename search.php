@@ -24,6 +24,8 @@
 		<br><br>
 		Author: <input type="text" style='width:12em' name="author">
 		<br><br>
+		Annotation contains: <input type="text" style='width:12em' name="annotation">
+		<br><br>
 		File Size (in bytes):	greater than <input type="text" style='width:5em' name="fs_min">
 								less than <input type="text" style='width:5em' name="fs_max">
 		<br><br>
