@@ -17,7 +17,6 @@
 			die("Connection failed: " . $conn->connect_error);
 		}
 		
-		// POST HANDLING! YAY
 		if(!empty($_POST['action_type'])){
 			if(strcmp($_POST['action_type'], "save") == 0){
 				$sql = "UPDATE dagr 
@@ -51,9 +50,9 @@
 						</td>".
 						"<td style='text-align:center'> 
 							<form action='extension_interface.php' method='post'>
-								<input type='hidden' name = 'guid' value=\"".$row["id"]."\">
-								<input type='hidden' name = 'action_type' value='delete'>
-								<input type='submit' value=\"Delete\">
+								<input type='hidden' name='guid' value=\"".$row["id"]."\">
+								<input type='hidden' name='action_type' value='delete'>
+								<input type='submit' value='Delete'>
 							</form>
 						</td>".
 					"</tr></form>";
