@@ -119,7 +119,7 @@
 				single_file_upload($conn, $child, $guid, ($depth-1));
 			}
 		}
-		return 0;
+		return $guid;
 	}
 	
 	function directory_upload($conn, $dir){
