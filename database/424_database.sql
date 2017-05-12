@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: May 12, 2017 at 02:53 AM
+-- Generation Time: May 12, 2017 at 03:03 AM
 -- Server version: 10.1.19-MariaDB
 -- PHP Version: 7.0.13
 
@@ -69,6 +69,7 @@ INSERT INTO `children` (`parent_id`, `child_id`) VALUES
 CREATE TABLE `dagr` (
   `id` varchar(36) NOT NULL,
   `name` varchar(260) NOT NULL,
+  `time_created` datetime NOT NULL,
   `path` varchar(500) NOT NULL,
   `annotation` varchar(3000) NOT NULL DEFAULT ''
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -77,13 +78,13 @@ CREATE TABLE `dagr` (
 -- Dumping data for table `dagr`
 --
 
-INSERT INTO `dagr` (`id`, `name`, `path`, `annotation`) VALUES
-('3270C5C5-F589-4BA2-820B-6EBD0DD4C85E', 'Image File Renamed 3', 'c:file', 'When preparing an SQL statement, always make sure you actually execute it.'),
-('7532A82F-E3E2-4E1D-9D7F-9B23E1831B06', 'Google', 'http://www.google.com', ''),
-('C5296946-0CB0-451C-9760-D6A50D062C7D', 'bobby''s gif', 'bobby.gif', ''),
-('E9969B82-E2CB-4012-9675-754E58B5629E', 'Test Image File', '', ''),
-('EE21CDAF-6845-4135-AD4C-FAF45300AF04', 'Child Name', '', ''),
-('FCBB1E3B-07BD-4451-8B25-83C14D7B0707', 'Parent Name', '', '');
+INSERT INTO `dagr` (`id`, `name`, `time_created`, `path`, `annotation`) VALUES
+('3270C5C5-F589-4BA2-820B-6EBD0DD4C85E', 'Image File Renamed 3', '0000-00-00 00:00:00', 'ted.jpg', 'When preparing an SQL statement, always make sure you actually execute it.'),
+('7532A82F-E3E2-4E1D-9D7F-9B23E1831B06', 'Google', '0000-00-00 00:00:00', 'http://www.google.com', ''),
+('C5296946-0CB0-451C-9760-D6A50D062C7D', 'bobby''s gif', '0000-00-00 00:00:00', 'bobby.gif', ''),
+('E9969B82-E2CB-4012-9675-754E58B5629E', 'Test Image File', '0000-00-00 00:00:00', '', ''),
+('EE21CDAF-6845-4135-AD4C-FAF45300AF04', 'Child Name', '0000-00-00 00:00:00', '', ''),
+('FCBB1E3B-07BD-4451-8B25-83C14D7B0707', 'Parent Name', '0000-00-00 00:00:00', '', '');
 
 -- --------------------------------------------------------
 
