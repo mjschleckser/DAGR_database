@@ -29,10 +29,11 @@
 			// output data of each row
 			echo "<table><tr> <th>Name</th> <th>DAGR GUID</th> <th>Time Created</th> </tr>";
 			while($row = $result->fetch_assoc()) {
-				echo "<tr><td>".$row["name"]."</td><td>".'<a href="view_dagr.php?guid='.$row["id"].'">' 
-								. $row["id"]."</a></td> <td>" 
-								. $row["time_created"]."</td>
-								</tr> ";
+				echo "<tr>".
+						"<td>".$row["name"]."</td>".
+						"<td>".'<a href="view_dagr.php?guid='.$row["id"].'">'.$row["id"]."</a></td>".
+						"<td>".$row["time_created"]."</td>".
+					"</tr> ";
 			}
 			echo "</table>";
 		} else {

@@ -10,6 +10,8 @@
    "default_popup": "popup.html"
   },
   "permissions": [
+   "notifications",
+   "tabs",
    "activeTab",
    "http://localhost/*"
    ]
