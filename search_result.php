@@ -45,7 +45,6 @@
 		
 		$result = $conn->query($sql);
 		if(mysqli_num_rows($result) <= 0){
-			echo $sql;
 			echo("No records returned. Please alter your search and try again.</body></html>");
 			exit();
 		}

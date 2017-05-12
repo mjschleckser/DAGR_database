@@ -31,16 +31,8 @@
 			if ($conn->connect_error) {
 				die("Connection failed: " . $conn->connect_error);
 			} 
-			$sql = "DELETE FROM dagr_to_categories WHERE dagr_id='".$_POST['guid']."'";
-			$conn->query($sql);
-			$sql = "DELETE FROM children WHERE parent_id='".$_POST['guid']."'";
-			$conn->query($sql);
-			$sql = "DELETE FROM children WHERE child_id='".$_POST['guid']."'";
-			$conn->query($sql);
-			$sql = "DELETE FROM metadata WHERE dagr_id='".$_POST['guid']."'";
-			$conn->query($sql);
-			$sql = "DELETE FROM dagr WHERE id='".$_POST['guid']."'";
-			$conn->query($sql);
+			delete_dagr($conn, $_POST['guid']);
+			
 			
 			$conn->close();
 			echo("<h2>DAGR deleted!</h2>");
